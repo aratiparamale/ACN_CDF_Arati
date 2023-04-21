@@ -156,7 +156,7 @@
         ]
       },
       "gridPos": {
-        "h": 9,
+        "h": 6,
         "w": 24,
         "x": 0,
         "y": 0
@@ -569,6 +569,19 @@
       "type": "timeseries"
     },
     {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 6
+      },
+      "id": 10,
+      "panels": [],
+      "title": "KPIs",
+      "type": "row"
+    },
+    {
       "datasource": {
         "type": "cognitedata-datasource",
         "uid": "e454dc42-ad2c-4b09-9116-dcd16d0b83cf"
@@ -599,13 +612,26 @@
           },
           "unit": "percent"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*Quality$"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 9,
         "w": 6,
         "x": 0,
-        "y": 9
+        "y": 7
       },
       "id": 1,
       "options": {
@@ -620,7 +646,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.5.0-cloud.4.a016665c",
+      "pluginVersion": "9.5.0-cloud.5.a016665c",
       "targets": [
         {
           "aggregation": "none",
@@ -715,8 +741,18 @@
         {
           "id": "calculateField",
           "options": {
+            "mode": "reduceRow",
+            "reduce": {
+              "reducer": "mean"
+            },
+            "replaceFields": true
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
             "binary": {
-              "left": "avg(OPEWOTTE981 Oee:OPEWOTTE981:oee, OPEC386 Oee:OPEC386:oee, OPEHT947 Oee:OPEHT947:oee, OPEW729 Oee:OPEW729:oee)",
+              "left": "Mean",
               "operator": "*",
               "reducer": "sum",
               "right": "100"
@@ -824,7 +860,7 @@
         "h": 9,
         "w": 18,
         "x": 6,
-        "y": 9
+        "y": 7
       },
       "id": 2,
       "options": {
@@ -1039,8 +1075,7 @@
             "mode": "percentage",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "yellow",
@@ -1060,7 +1095,7 @@
         "h": 9,
         "w": 6,
         "x": 0,
-        "y": 18
+        "y": 16
       },
       "id": 3,
       "options": {
@@ -1176,6 +1211,22 @@
               "reducer": "sum",
               "right": "100"
             },
+            "mode": "reduceRow",
+            "reduce": {
+              "reducer": "mean"
+            },
+            "replaceFields": true
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "binary": {
+              "left": "Mean",
+              "operator": "*",
+              "reducer": "sum",
+              "right": "100"
+            },
             "mode": "binary",
             "reduce": {
               "reducer": "sum"
@@ -1235,8 +1286,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1248,13 +1298,19 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byName",
-              "options": "OPEC386:oee"
+              "id": "byRegexp",
+              "options": ".*Status$"
             },
             "properties": [
               {
-                "id": "custom.axisPlacement",
-                "value": "right"
+                "id": "custom.lineStyle",
+                "value": {
+                  "dash": [
+                    10,
+                    10
+                  ],
+                  "fill": "dash"
+                }
               }
             ]
           }
@@ -1264,7 +1320,7 @@
         "h": 9,
         "w": 18,
         "x": 6,
-        "y": 18
+        "y": 16
       },
       "id": 4,
       "options": {
@@ -1325,7 +1381,7 @@
             ],
             "expr": ""
           },
-          "expr": "avg(ts{metadata={type='oee'},assetSubtreeIds=[{id=$production_line}]})",
+          "expr": "avg(ts{metadata={type='availability'},assetSubtreeIds=[{id=$production_line}]})",
           "extractionPipelinesQuery": {
             "columns": [
               "name",
@@ -1373,7 +1429,7 @@
           }
         },
         {
-          "aggregation": "none",
+          "aggregation": "average",
           "assetQuery": {
             "includeSubTimeseries": true,
             "includeSubtrees": false,
@@ -1656,8 +1712,7 @@
             "mode": "percentage",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "yellow",
@@ -1677,7 +1732,7 @@
         "h": 9,
         "w": 6,
         "x": 0,
-        "y": 27
+        "y": 25
       },
       "id": 5,
       "options": {
@@ -1782,13 +1837,22 @@
           }
         }
       ],
-      "title": "Quality of $production_line",
+      "title": "Quality KPI of $production_line",
       "transformations": [
         {
           "id": "calculateField",
           "options": {
+            "mode": "reduceRow",
+            "reduce": {
+              "reducer": "mean"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
             "binary": {
-              "left": "avg(OPEWOTTE981 Quality:OPEWOTTE981:quality, OPEW729 Quality:OPEW729:quality, OPEHT947 Quality:OPEHT947:quality, OPEC386 Quality:OPEC386:quality)",
+              "left": "Mean",
               "operator": "*",
               "reducer": "sum",
               "right": "100"
@@ -1852,8 +1916,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -1865,8 +1928,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byName",
-              "options": "OPEWOTTE981 Count"
+              "id": "byRegexp",
+              "options": ".*Count$"
             },
             "properties": [
               {
@@ -1877,8 +1940,8 @@
           },
           {
             "matcher": {
-              "id": "byName",
-              "options": "OPEWOTTE981 Good"
+              "id": "byRegexp",
+              "options": ".*Good$"
             },
             "properties": [
               {
@@ -1893,7 +1956,7 @@
         "h": 9,
         "w": 18,
         "x": 6,
-        "y": 27
+        "y": 25
       },
       "id": 7,
       "options": {
@@ -1954,7 +2017,7 @@
             ],
             "expr": ""
           },
-          "expr": "avg(ts{metadata={type='oee'},assetSubtreeIds=[{id=$production_line}]})",
+          "expr": "avg(ts{metadata={type='quality'},assetSubtreeIds=[{id=$production_line}]})",
           "extractionPipelinesQuery": {
             "columns": [
               "name",
@@ -2002,7 +2065,7 @@
           }
         },
         {
-          "aggregation": "none",
+          "aggregation": "average",
           "assetQuery": {
             "includeSubTimeseries": true,
             "includeSubtrees": false,
@@ -2285,8 +2348,7 @@
             "mode": "percentage",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "yellow",
@@ -2306,7 +2368,7 @@
         "h": 8,
         "w": 6,
         "x": 0,
-        "y": 36
+        "y": 34
       },
       "id": 6,
       "options": {
@@ -2416,8 +2478,17 @@
         {
           "id": "calculateField",
           "options": {
+            "mode": "reduceRow",
+            "reduce": {
+              "reducer": "mean"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
             "binary": {
-              "left": "avg(OPEWOTTE981 Performance:OPEWOTTE981:performance, OPEC386 Performance:OPEC386:performance, OPEW729 Performance:OPEW729:performance, OPEHT947 Performance:OPEHT947:performance)",
+              "left": "Mean",
               "operator": "*",
               "reducer": "sum",
               "right": "100"
@@ -2481,8 +2552,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2494,44 +2564,26 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byName",
-              "options": "OPEC386:oee"
+              "id": "byRegexp",
+              "options": ".*Status$"
             },
             "properties": [
               {
-                "id": "custom.axisPlacement",
-                "value": "right"
-              }
-            ]
-          },
-          {
-            "__systemRef": "hideSeriesFrom",
-            "matcher": {
-              "id": "byNames",
-              "options": {
-                "mode": "exclude",
-                "names": [
-                  "OPPT241 Performance"
-                ],
-                "prefix": "All except:",
-                "readOnly": true
-              }
-            },
-            "properties": [
-              {
-                "id": "custom.hideFrom",
+                "id": "custom.lineStyle",
                 "value": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": false
+                  "dash": [
+                    10,
+                    10
+                  ],
+                  "fill": "dash"
                 }
               }
             ]
           },
           {
             "matcher": {
-              "id": "byName",
-              "options": "OPPT241 Performance"
+              "id": "byRegexp",
+              "options": ".*Status$"
             },
             "properties": [
               {
@@ -2546,7 +2598,7 @@
         "h": 8,
         "w": 18,
         "x": 6,
-        "y": 36
+        "y": 34
       },
       "id": 8,
       "options": {
@@ -2567,7 +2619,7 @@
       },
       "targets": [
         {
-          "aggregation": "average",
+          "aggregation": "none",
           "assetQuery": {
             "includeSubTimeseries": true,
             "includeSubtrees": false,
@@ -2607,7 +2659,7 @@
             ],
             "expr": ""
           },
-          "expr": "avg(ts{metadata={type='oee'},assetSubtreeIds=[{id=$production_line}]})",
+          "expr": "avg(ts{metadata={type='performance'},assetSubtreeIds=[{id=$production_line}]})",
           "extractionPipelinesQuery": {
             "columns": [
               "name",
@@ -2979,6 +3031,6 @@
   "timezone": "",
   "title": "Bootcamp-05-Grafana-Dashboard_MAIN",
   "uid": "b77b42b0-6968-4114-a741-b41aa7f5b12e",
-  "version": 25,
+  "version": 35,
   "weekStart": ""
 }
