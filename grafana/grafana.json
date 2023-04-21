@@ -646,7 +646,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "9.5.0-cloud.4.a016665c",
+      "pluginVersion": "9.5.0-cloud.5.a016665c",
       "targets": [
         {
           "aggregation": "none",
